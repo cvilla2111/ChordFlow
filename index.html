@@ -5,6 +5,17 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet">
     <style>
+        :root {
+            --gap: 30px;
+            --header-height: 48px;
+            --rect-height: calc((100vh - 60px - 60px - 144px) / 9);
+            --root-height: calc(var(--header-height) + 2 * var(--rect-height));
+            --type-height: calc(var(--header-height) + 5 * var(--rect-height));
+            --duration-height: calc(var(--header-height) + 2 * var(--rect-height));
+            --type-top: calc(var(--gap) + var(--root-height) + var(--gap));
+            --duration-top: calc(var(--type-top) + var(--type-height) + var(--gap));
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -19,41 +30,80 @@
         }
 
         body {
-            width: 1920px;
-            height: 1080px;
+            width: 100%;
+            height: 100%;
             background-color: #ebebe4;
-            transform-origin: top left;
             position: absolute;
         }
 
         .header {
             position: absolute;
-            left: 656px;
-            top: 48px;
-            width: 1232px;
-            height: 80px;
+            left: calc(var(--gap) + 31% + var(--gap));
+            top: var(--gap);
+            width: calc(100% - var(--gap) - 31% - var(--gap) - var(--gap));
+            height: var(--header-height);
             background-color: #305060;
         }
 
         .left-container {
             position: absolute;
-            left: 32px;
-            top: 48px;
-            width: 580px;
-            height: 970px;
+            left: var(--gap);
+            top: var(--gap);
+            width: 31%;
+            height: calc(100% - var(--gap) - var(--gap));
             background-color: #f7f7f0;
             box-shadow: 0 4px 8px rgba(0,0,0,0.25);
         }
 
         .left-header {
-            left: 32px;
-            width: 580px;
-            height: 80px;
+            left: var(--gap);
+            width: 31%;
+            height: var(--header-height);
+        }
+
+        .left-bottom-header {
+            left: var(--gap);
+            width: 31%;
+            height: var(--header-height);
+        }
+
+        .right-container {
+            position: absolute;
+            left: calc(var(--gap) + 31% + var(--gap));
+            width: calc(100% - var(--gap) - 31% - var(--gap) - var(--gap));
+        }
+
+        .rect {
+            height: var(--rect-height);
+            border: 2px solid rgba(0,0,0,0.15);
+            color: rgba(0,0,0,0.5);
+        }
+
+        .scroll-container {
+            position: absolute;
+            top: var(--header-height);
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            touch-action: pan-x pan-y;
+        }
+
+        .scroll-content {
+            display: grid;
+            gap: 0;
+            min-width: 100%;
+            min-height: 100%;
+            transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .scroll-content.dragging {
+            transition: none;
         }
 
         .header-chevron-left {
             position: absolute;
-            left: 24px;
+            left: 12px;
             top: 50%;
             transform: translateY(-50%);
         }
@@ -67,7 +117,7 @@
 
         .header-chevron-right {
             position: absolute;
-            right: 24px;
+            right: 12px;
             top: 50%;
             transform: translateY(-50%);
         }
@@ -166,9 +216,9 @@
 <body>
     <div class="left-container"></div>
     <div class="header left-header">
-        <i class="header-chevron-left" data-lucide="chevron-left" width="32" height="32" stroke-width="3" style="color: white;"></i>
-        <span class="header-title" style="font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 24px; color: white;">01/01</span>
-        <i class="header-chevron-right" data-lucide="chevron-right" width="32" height="32" stroke-width="3" style="color: white;"></i>
+        <i class="header-chevron-left" data-lucide="chevron-left" width="20" height="20" stroke-width="3" style="color: white;"></i>
+        <span class="header-title" style="font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 16px; color: white;">01/01</span>
+        <i class="header-chevron-right" data-lucide="chevron-right" width="20" height="20" stroke-width="3" style="color: white;"></i>
         <div class="mobile-icons">
             <i data-lucide="play" width="24" height="24" style="color: white; fill: white;"></i>
             <i data-lucide="audio-lines" width="24" height="24" stroke-width="2.5" style="color: white;"></i>
@@ -176,131 +226,288 @@
             <i data-lucide="menu" width="24" height="24" stroke-width="3" style="color: white;"></i>
         </div>
     </div>
-    <div class="right-container" style="position: absolute; left: 656px; top: 48px; width: 1232px; height: 226px; background-color: #f7f7f0; box-shadow: 0 4px 8px rgba(0,0,0,0.25);">
-        <div style="position: absolute; top: 80px; left: 0; right: 0; display: grid; grid-template-columns: repeat(6, 1fr); gap: 0;">
-            <div style="height: 73px; background-color: #d8ffd1; border: 3px solid rgba(0,0,0,0.15); border-top: none; border-left: none;"></div>
-            <div style="height: 73px; background-color: #ffe5dd; border: 3px solid rgba(0,0,0,0.15); border-top: none;"></div>
-            <div style="height: 73px; background-color: #d8ffd1; border: 3px solid rgba(0,0,0,0.15); border-top: none;"></div>
-            <div style="height: 73px; background-color: #ffe5dd; border: 3px solid rgba(0,0,0,0.15); border-top: none;"></div>
-            <div style="height: 73px; background-color: #d8ffd1; border: 3px solid rgba(0,0,0,0.15); border-top: none;"></div>
-            <div style="height: 73px; background-color: #d8ffd1; border: 3px solid rgba(0,0,0,0.15); border-top: none; border-right: none;"></div>
-            <div style="height: 73px; background-color: #ffe5dd; border: 3px solid rgba(0,0,0,0.15); border-bottom: none; border-left: none;"></div>
-            <div style="height: 73px; background-color: #d8ffd1; border: 3px solid rgba(0,0,0,0.15); border-bottom: none;"></div>
-            <div style="height: 73px; background-color: #ffe5dd; border: 3px solid rgba(0,0,0,0.15); border-bottom: none;"></div>
-            <div style="height: 73px; background-color: #d8ffd1; border: 3px solid rgba(0,0,0,0.15); border-bottom: none;"></div>
-            <div style="height: 73px; background-color: #ffe5dd; border: 3px solid rgba(0,0,0,0.15); border-bottom: none;"></div>
-            <div style="height: 73px; background-color: #d8ffd1; border: 3px solid rgba(0,0,0,0.15); border-bottom: none; border-right: none;"></div>
+    <div class="right-container" style="top: var(--gap); height: var(--root-height); background-color: #f7f7f0; box-shadow: 0 4px 8px rgba(0,0,0,0.25);">
+        <div class="scroll-container">
+            <div class="scroll-content" style="grid-template-columns: repeat(6, 1fr);">
+                <div class="rect" style="background-color: #d8ffd1; border-top: none; border-left: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">C</div>
+                <div class="rect" style="background-color: #ffe5dd; border-top: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">C<sup>#</sup>/D<sup>b</sup></div>
+                <div class="rect" style="background-color: #d8ffd1; border-top: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">D</div>
+                <div class="rect" style="background-color: #ffe5dd; border-top: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">D<sup>#</sup>/E<sup>b</sup></div>
+                <div class="rect" style="background-color: #d8ffd1; border-top: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">E</div>
+                <div class="rect" style="background-color: #d8ffd1; border-top: none; border-right: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">F</div>
+                <div class="rect" style="background-color: #ffe5dd; border-bottom: none; border-left: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">F<sup>#</sup>/G<sup>b</sup></div>
+                <div class="rect" style="background-color: #d8ffd1; border-bottom: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">G</div>
+                <div class="rect" style="background-color: #ffe5dd; border-bottom: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">G<sup>#</sup>/A<sup>b</sup></div>
+                <div class="rect" style="background-color: #d8ffd1; border-bottom: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">A</div>
+                <div class="rect" style="background-color: #ffe5dd; border-bottom: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">A<sup>#</sup>/B<sup>b</sup></div>
+                <div class="rect" style="background-color: #d8ffd1; border-bottom: none; border-right: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">B</div>
+            </div>
         </div>
     </div>
     <div class="header right-header">
-        <span style="position: absolute; left: 26px; top: 50%; transform: translateY(-50%); font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 24px; color: white;">Chord root</span>
-        <i data-lucide="play" width="32" height="32" style="position: absolute; left: 838px; top: 50%; transform: translateY(-50%); color: white; fill: white;"></i>
-        <i data-lucide="audio-lines" width="32" height="32" stroke-width="2.5" style="position: absolute; left: 956.7px; top: 50%; transform: translateY(-50%); color: white;"></i>
-        <i data-lucide="rotate-ccw" width="32" height="32" stroke-width="2.5" style="position: absolute; left: 1063.95px; top: 50%; transform: translateY(-50%); color: white;"></i>
-        <i data-lucide="menu" width="32" height="32" stroke-width="3" style="position: absolute; left: 1171.2px; top: 50%; transform: translateY(-50%); color: white;"></i>
+        <span style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px; color: white;">Chord root</span>
+        <i data-lucide="play" width="18" height="18" style="position: absolute; right: 160px; top: 50%; transform: translateY(-50%); color: white; fill: white;"></i>
+        <i data-lucide="audio-lines" width="18" height="18" stroke-width="2.5" style="position: absolute; right: 112px; top: 50%; transform: translateY(-50%); color: white;"></i>
+        <i data-lucide="rotate-ccw" width="18" height="18" stroke-width="2.5" style="position: absolute; right: 64px; top: 50%; transform: translateY(-50%); color: white;"></i>
+        <i data-lucide="menu" width="18" height="18" stroke-width="3" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: white;"></i>
     </div>
-    <div class="right-container" style="position: absolute; left: 656px; top: 320px; width: 1232px; height: 226px; background-color: #f7f7f0; box-shadow: 0 4px 8px rgba(0,0,0,0.25);">
-        <div style="position: absolute; top: 80px; left: 0; right: 0; display: grid; grid-template-columns: repeat(6, 1fr); gap: 0;">
-            <div style="height: 73px; background-color: #d8ffd1; border: 3px solid rgba(0,0,0,0.15); border-top: none; border-left: none;"></div>
-            <div style="height: 73px; background-color: #ffe5dd; border: 3px solid rgba(0,0,0,0.15); border-top: none;"></div>
-            <div style="height: 73px; background-color: #d8ffd1; border: 3px solid rgba(0,0,0,0.15); border-top: none;"></div>
-            <div style="height: 73px; background-color: #ffe5dd; border: 3px solid rgba(0,0,0,0.15); border-top: none;"></div>
-            <div style="height: 73px; background-color: #d8ffd1; border: 3px solid rgba(0,0,0,0.15); border-top: none;"></div>
-            <div style="height: 73px; background-color: #d8ffd1; border: 3px solid rgba(0,0,0,0.15); border-top: none; border-right: none;"></div>
-            <div style="height: 73px; background-color: #ffe5dd; border: 3px solid rgba(0,0,0,0.15); border-left: none;"></div>
-            <div style="height: 73px; background-color: #d8ffd1; border: 3px solid rgba(0,0,0,0.15);"></div>
-            <div style="height: 73px; background-color: #ffe5dd; border: 3px solid rgba(0,0,0,0.15);"></div>
-            <div style="height: 73px; background-color: #d8ffd1; border: 3px solid rgba(0,0,0,0.15);"></div>
-            <div style="height: 73px; background-color: #ffe5dd; border: 3px solid rgba(0,0,0,0.15);"></div>
-            <div style="height: 73px; background-color: #d8ffd1; border: 3px solid rgba(0,0,0,0.15); border-right: none;"></div>
-            <div style="height: 73px; background-color: #d8ffd1; border: 3px solid rgba(0,0,0,0.15); border-left: none;"></div>
-            <div style="height: 73px; background-color: #ffe5dd; border: 3px solid rgba(0,0,0,0.15);"></div>
-            <div style="height: 73px; background-color: #d8ffd1; border: 3px solid rgba(0,0,0,0.15);"></div>
-            <div style="height: 73px; background-color: #ffe5dd; border: 3px solid rgba(0,0,0,0.15);"></div>
-            <div style="height: 73px; background-color: #d8ffd1; border: 3px solid rgba(0,0,0,0.15);"></div>
-            <div style="height: 73px; background-color: #d8ffd1; border: 3px solid rgba(0,0,0,0.15); border-right: none;"></div>
-            <div style="height: 73px; background-color: #ffe5dd; border: 3px solid rgba(0,0,0,0.15); border-left: none;"></div>
-            <div style="height: 73px; background-color: #d8ffd1; border: 3px solid rgba(0,0,0,0.15);"></div>
-            <div style="height: 73px; background-color: #ffe5dd; border: 3px solid rgba(0,0,0,0.15);"></div>
-            <div style="height: 73px; background-color: #d8ffd1; border: 3px solid rgba(0,0,0,0.15);"></div>
-            <div style="height: 73px; background-color: #ffe5dd; border: 3px solid rgba(0,0,0,0.15);"></div>
-            <div style="height: 73px; background-color: #d8ffd1; border: 3px solid rgba(0,0,0,0.15); border-right: none;"></div>
-            <div style="height: 73px; background-color: #d8ffd1; border: 3px solid rgba(0,0,0,0.15); border-bottom: none; border-left: none;"></div>
-            <div style="height: 73px; background-color: #ffe5dd; border: 3px solid rgba(0,0,0,0.15); border-bottom: none;"></div>
-            <div style="height: 73px; background-color: #d8ffd1; border: 3px solid rgba(0,0,0,0.15); border-bottom: none;"></div>
-            <div style="height: 73px; background-color: #ffe5dd; border: 3px solid rgba(0,0,0,0.15); border-bottom: none;"></div>
-            <div style="height: 73px; background-color: #d8ffd1; border: 3px solid rgba(0,0,0,0.15); border-bottom: none;"></div>
-            <div style="height: 73px; background-color: #d8ffd1; border: 3px solid rgba(0,0,0,0.15); border-bottom: none; border-right: none;"></div>
+    <div class="right-container" style="top: var(--type-top); height: var(--type-height); background-color: #f7f7f0; box-shadow: 0 4px 8px rgba(0,0,0,0.25);">
+        <div class="scroll-container">
+            <div class="scroll-content" style="grid-template-columns: repeat(6, 1fr);">
+                <!-- Row 1: Maj, Min, Dim, 6, min6, Aug -->
+                <div class="rect" style="background-color: #d8ffd1; border-top: none; border-left: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Maj</div>
+                <div class="rect" style="background-color: #ffe5dd; border-top: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Min</div>
+                <div class="rect" style="background-color: #d8ffd1; border-top: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Dim</div>
+                <div class="rect" style="background-color: #ffe5dd; border-top: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">6</div>
+                <div class="rect" style="background-color: #d8ffd1; border-top: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">min6</div>
+                <div class="rect" style="background-color: #d8ffd1; border-top: none; border-right: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Aug</div>
+                <!-- Row 2: Maj7, Min7, 7, Maj9, Min9, 9 -->
+                <div class="rect" style="background-color: #ffe5dd; border-left: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Maj7</div>
+                <div class="rect" style="background-color: #d8ffd1; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Min7</div>
+                <div class="rect" style="background-color: #ffe5dd; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">7</div>
+                <div class="rect" style="background-color: #d8ffd1; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Maj9</div>
+                <div class="rect" style="background-color: #ffe5dd; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Min9</div>
+                <div class="rect" style="background-color: #d8ffd1; border-right: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">9</div>
+                <!-- Row 3: Maj11, Min11, 11, Maj13, Min13, 13 -->
+                <div class="rect" style="background-color: #d8ffd1; border-left: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Maj11</div>
+                <div class="rect" style="background-color: #ffe5dd; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Min11</div>
+                <div class="rect" style="background-color: #d8ffd1; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">11</div>
+                <div class="rect" style="background-color: #ffe5dd; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Maj13</div>
+                <div class="rect" style="background-color: #d8ffd1; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Min13</div>
+                <div class="rect" style="background-color: #d8ffd1; border-right: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">13</div>
+                <!-- Row 4: Sus2, Sus4, 5, Dim7, Aug7, Sus2Sus4 -->
+                <div class="rect" style="background-color: #ffe5dd; border-left: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Sus2</div>
+                <div class="rect" style="background-color: #d8ffd1; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Sus4</div>
+                <div class="rect" style="background-color: #ffe5dd; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">5</div>
+                <div class="rect" style="background-color: #d8ffd1; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Dim7</div>
+                <div class="rect" style="background-color: #ffe5dd; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Aug7</div>
+                <div class="rect" style="background-color: #d8ffd1; border-right: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Sus2Sus4</div>
+                <!-- Row 5: Add4, MinAdd4, 7Add4, Add9, MinAdd9, MinMaj7 -->
+                <div class="rect" style="background-color: #d8ffd1; border-left: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Add4</div>
+                <div class="rect" style="background-color: #ffe5dd; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">MinAdd4</div>
+                <div class="rect" style="background-color: #d8ffd1; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">7Add4</div>
+                <div class="rect" style="background-color: #ffe5dd; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Add9</div>
+                <div class="rect" style="background-color: #d8ffd1; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">MinAdd9</div>
+                <div class="rect" style="background-color: #d8ffd1; border-right: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">MinMaj7</div>
+                <!-- Row 6: MinMaj9, MinMaj11, 7Sus2, 7Sus4, 9Sus4, DimAdd4 -->
+                <div class="rect" style="background-color: #ffe5dd; border-left: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">MinMaj9</div>
+                <div class="rect" style="background-color: #d8ffd1; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">MinMaj11</div>
+                <div class="rect" style="background-color: #ffe5dd; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">7Sus2</div>
+                <div class="rect" style="background-color: #d8ffd1; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">7Sus4</div>
+                <div class="rect" style="background-color: #ffe5dd; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">9Sus4</div>
+                <div class="rect" style="background-color: #d8ffd1; border-right: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">DimAdd4</div>
+                <!-- Row 7: AugAdd2, Maj7Sus4, Min7Add4, 6/9, 7/6, 9/6 -->
+                <div class="rect" style="background-color: #d8ffd1; border-left: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">AugAdd2</div>
+                <div class="rect" style="background-color: #ffe5dd; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Maj7Sus4</div>
+                <div class="rect" style="background-color: #d8ffd1; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Min7Add4</div>
+                <div class="rect" style="background-color: #ffe5dd; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">6/9</div>
+                <div class="rect" style="background-color: #d8ffd1; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">7/6</div>
+                <div class="rect" style="background-color: #d8ffd1; border-right: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">9/6</div>
+                <!-- Row 8: Maj(b5), Min(b5), Min(#5), Maj7(b5), Min7(b5), 7(b5) -->
+                <div class="rect" style="background-color: #ffe5dd; border-left: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Maj(<sup>b</sup>5)</div>
+                <div class="rect" style="background-color: #d8ffd1; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Min(<sup>b</sup>5)</div>
+                <div class="rect" style="background-color: #ffe5dd; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Min(<sup>#</sup>5)</div>
+                <div class="rect" style="background-color: #d8ffd1; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Maj7(<sup>b</sup>5)</div>
+                <div class="rect" style="background-color: #ffe5dd; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Min7(<sup>b</sup>5)</div>
+                <div class="rect" style="background-color: #d8ffd1; border-right: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">7(<sup>b</sup>5)</div>
+                <!-- Row 9: Min6/9, Maj7(#5), Min7(#5), 7(#5), Maj7(b9), Min7(b9) -->
+                <div class="rect" style="background-color: #d8ffd1; border-left: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Min6/9</div>
+                <div class="rect" style="background-color: #ffe5dd; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Maj7(<sup>#</sup>5)</div>
+                <div class="rect" style="background-color: #d8ffd1; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Min7(<sup>#</sup>5)</div>
+                <div class="rect" style="background-color: #ffe5dd; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">7(<sup>#</sup>5)</div>
+                <div class="rect" style="background-color: #d8ffd1; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Maj7(<sup>b</sup>9)</div>
+                <div class="rect" style="background-color: #d8ffd1; border-right: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Min7(<sup>b</sup>9)</div>
+                <!-- Row 10: 7(b9), Maj(#9), Maj7(#9), Min7(#9), 7(#9), Maj7(#11) -->
+                <div class="rect" style="background-color: #ffe5dd; border-left: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">7(<sup>b</sup>9)</div>
+                <div class="rect" style="background-color: #d8ffd1; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Maj(<sup>#</sup>9)</div>
+                <div class="rect" style="background-color: #ffe5dd; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Maj7(<sup>#</sup>9)</div>
+                <div class="rect" style="background-color: #d8ffd1; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Min7(<sup>#</sup>9)</div>
+                <div class="rect" style="background-color: #ffe5dd; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">7(<sup>#</sup>9)</div>
+                <div class="rect" style="background-color: #d8ffd1; border-right: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Maj7(<sup>#</sup>11)</div>
+                <!-- Row 11: 7(#11), Maj(b9), Min7(#11), 7/13, Maj(#5), Maj(#11) -->
+                <div class="rect" style="background-color: #d8ffd1; border-left: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">7(<sup>#</sup>11)</div>
+                <div class="rect" style="background-color: #ffe5dd; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Maj(<sup>b</sup>9)</div>
+                <div class="rect" style="background-color: #d8ffd1; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Min7(<sup>#</sup>11)</div>
+                <div class="rect" style="background-color: #ffe5dd; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">7/13</div>
+                <div class="rect" style="background-color: #d8ffd1; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Maj(<sup>#</sup>5)</div>
+                <div class="rect" style="background-color: #d8ffd1; border-right: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Maj(<sup>#</sup>11)</div>
+                <!-- Row 12: 11(b9), Min11(b5), 9(b5), 9(#5), Maj9(#5), Aug7(#9) -->
+                <div class="rect" style="background-color: #ffe5dd; border-left: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">11(<sup>b</sup>9)</div>
+                <div class="rect" style="background-color: #d8ffd1; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Min11(<sup>b</sup>5)</div>
+                <div class="rect" style="background-color: #ffe5dd; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">9(<sup>b</sup>5)</div>
+                <div class="rect" style="background-color: #d8ffd1; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">9(<sup>#</sup>5)</div>
+                <div class="rect" style="background-color: #ffe5dd; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Maj9(<sup>#</sup>5)</div>
+                <div class="rect" style="background-color: #d8ffd1; border-right: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Aug7(<sup>#</sup>9)</div>
+                <!-- Row 13: 13(b9), 13(#11), Maj(b9b5), Maj(b9#5), Maj(b9#11), Silence -->
+                <div class="rect" style="background-color: #d8ffd1; border-bottom: none; border-left: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">13(<sup>b</sup>9)</div>
+                <div class="rect" style="background-color: #ffe5dd; border-bottom: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">13(<sup>#</sup>11)</div>
+                <div class="rect" style="background-color: #d8ffd1; border-bottom: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Maj(<sup>b</sup>9<sup>b</sup>5)</div>
+                <div class="rect" style="background-color: #ffe5dd; border-bottom: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Maj(<sup>b</sup>9<sup>#</sup>5)</div>
+                <div class="rect" style="background-color: #d8ffd1; border-bottom: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Maj(<sup>b</sup>9<sup>#</sup>11)</div>
+                <div class="rect" style="background-color: #d8ffd1; border-bottom: none; border-right: none; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px;">Silence</div>
+            </div>
         </div>
     </div>
-    <div class="header right-header" style="top: 320px;">
-        <span style="position: absolute; left: 26px; top: 50%; transform: translateY(-50%); font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 24px; color: white;">Chord type</span>
-        <span style="position: absolute; right: 26px; top: 50%; transform: translateY(-50%); font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 24px; color: white;">Inv: Root &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; Bass: D &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp; Key: C Maj</span>
+    <div class="header right-header" style="top: var(--type-top);">
+        <span style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px; color: white;">Chord type</span>
+        <span style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px; color: white;">Inv: Root &nbsp;&nbsp; | &nbsp;&nbsp; Bass: D &nbsp;&nbsp; | &nbsp;&nbsp; Key: C Maj</span>
     </div>
-    <div class="right-container" style="position: absolute; left: 656px; top: 788px; width: 1232px; height: 226px; background-color: #f7f7f0; box-shadow: 0 4px 8px rgba(0,0,0,0.25);">
-        <div style="position: absolute; top: 80px; left: 0; right: 0; display: grid; grid-template-columns: repeat(8, 1fr); gap: 0;">
-            <div style="height: 73px; background-color: #fffff7; border: 3px solid rgba(0,0,0,0.15); border-top: none; border-left: none;"></div>
-            <div style="height: 73px; background-color: #fffff7; border: 3px solid rgba(0,0,0,0.15); border-top: none;"></div>
-            <div style="height: 73px; background-color: #fffff7; border: 3px solid rgba(0,0,0,0.15); border-top: none;"></div>
-            <div style="height: 73px; background-color: #fffff7; border: 3px solid rgba(0,0,0,0.15); border-top: none;"></div>
-            <div style="height: 73px; background-color: #fffff7; border: 3px solid rgba(0,0,0,0.15); border-top: none;"></div>
-            <div style="height: 73px; background-color: #fffff7; border: 3px solid rgba(0,0,0,0.15); border-top: none;"></div>
-            <div style="height: 73px; background-color: #fffff7; border: 3px solid rgba(0,0,0,0.15); border-top: none;"></div>
-            <div style="height: 73px; background-color: #fffff7; border: 3px solid rgba(0,0,0,0.15); border-top: none; border-right: none;"></div>
-            <div style="height: 73px; background-color: #fffff7; border: 3px solid rgba(0,0,0,0.15); border-bottom: none; border-left: none;"></div>
-            <div style="height: 73px; background-color: #fffff7; border: 3px solid rgba(0,0,0,0.15); border-bottom: none;"></div>
-            <div style="height: 73px; background-color: #fffff7; border: 3px solid rgba(0,0,0,0.15); border-bottom: none;"></div>
-            <div style="height: 73px; background-color: #fffff7; border: 3px solid rgba(0,0,0,0.15); border-bottom: none;"></div>
-            <div style="height: 73px; background-color: #fffff7; border: 3px solid rgba(0,0,0,0.15); border-bottom: none;"></div>
-            <div style="height: 73px; background-color: #fffff7; border: 3px solid rgba(0,0,0,0.15); border-bottom: none;"></div>
-            <div style="height: 73px; background-color: #fffff7; border: 3px solid rgba(0,0,0,0.15); border-bottom: none;"></div>
-            <div style="height: 73px; background-color: #fffff7; border: 3px solid rgba(0,0,0,0.15); border-bottom: none; border-right: none;"></div>
+    <div class="right-container" style="top: var(--duration-top); height: var(--duration-height); background-color: #f7f7f0; box-shadow: 0 4px 8px rgba(0,0,0,0.25);">
+        <div class="scroll-container">
+            <div class="scroll-content" style="grid-template-columns: repeat(8, 1fr);">
+                <div class="rect" style="background-color: #fffff7; border-top: none; border-left: none;"></div>
+                <div class="rect" style="background-color: #fffff7; border-top: none;"></div>
+                <div class="rect" style="background-color: #fffff7; border-top: none;"></div>
+                <div class="rect" style="background-color: #fffff7; border-top: none;"></div>
+                <div class="rect" style="background-color: #fffff7; border-top: none;"></div>
+                <div class="rect" style="background-color: #fffff7; border-top: none;"></div>
+                <div class="rect" style="background-color: #fffff7; border-top: none;"></div>
+                <div class="rect" style="background-color: #fffff7; border-top: none; border-right: none;"></div>
+                <div class="rect" style="background-color: #fffff7; border-bottom: none; border-left: none;"></div>
+                <div class="rect" style="background-color: #fffff7; border-bottom: none;"></div>
+                <div class="rect" style="background-color: #fffff7; border-bottom: none;"></div>
+                <div class="rect" style="background-color: #fffff7; border-bottom: none;"></div>
+                <div class="rect" style="background-color: #fffff7; border-bottom: none;"></div>
+                <div class="rect" style="background-color: #fffff7; border-bottom: none;"></div>
+                <div class="rect" style="background-color: #fffff7; border-bottom: none;"></div>
+                <div class="rect" style="background-color: #fffff7; border-bottom: none; border-right: none;"></div>
+            </div>
         </div>
     </div>
-    <div class="header right-header" style="top: 788px;">
-        <span style="position: absolute; left: 26px; top: 50%; transform: translateY(-50%); font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 24px; color: white;">Chord duration</span>
+    <div class="header right-header" style="top: var(--duration-top);">
+        <span style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px; color: white;">Chord duration</span>
     </div>
-    <div class="header left-bottom-header" style="left: 32px; top: 938px; width: 580px; height: 80px;">
-        <span style="position: absolute; left: 24px; top: 50%; transform: translateY(-50%); font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 24px; color: white;">Insert</span>
-        <span style="position: absolute; right: 24px; top: 50%; transform: translateY(-50%); font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 24px; color: white;">Remove</span>
+    <div class="header left-bottom-header" style="top: calc(100% - var(--gap) - var(--header-height));">
+        <span style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px; color: white;">Insert</span>
+        <span style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px; color: white;">Remove</span>
     </div>
     <div id="viewport-label" style="position: fixed; bottom: 4px; right: 4px; font-family: 'Roboto', sans-serif; font-size: 10px; color: rgba(0,0,0,0.3); pointer-events: none;"></div>
 
     <script>
-        function scaleToFit() {
-            const body = document.body;
-            if (window.innerWidth <= 960) {
-                body.style.transform = '';
-                body.style.left = '';
-                body.style.top = '';
-                body.style.width = '';
-                body.style.height = '';
-                return;
-            }
-            const scaleX = window.innerWidth / 1920;
-            const scaleY = window.innerHeight / 1080;
-            const scale = Math.min(scaleX, scaleY);
-
-            body.style.transform = `scale(${scale})`;
-
-            const offsetX = (window.innerWidth - 1920 * scale) / 2;
-            const offsetY = (window.innerHeight - 1080 * scale) / 2;
-            body.style.left = offsetX + 'px';
-            body.style.top = offsetY + 'px';
-        }
-
         function updateViewportLabel() {
             document.getElementById('viewport-label').textContent = window.innerWidth + ' x ' + window.innerHeight;
         }
 
-        scaleToFit();
         updateViewportLabel();
-        window.addEventListener('resize', () => {
-            scaleToFit();
-            updateViewportLabel();
-        });
+        window.addEventListener('resize', updateViewportLabel);
 
         lucide.createIcons();
+
+        // Scroll with rubber band edge effect (vertical only)
+        document.querySelectorAll('.scroll-container').forEach(container => {
+            const content = container.querySelector('.scroll-content');
+            let isDragging = false;
+            let startY = 0;
+            let scrollY = 0;
+            let lastPointerY = 0;
+            const rubberBandFactor = 0.3;
+
+            function getMaxScroll() {
+                const contentHeight = content.scrollHeight;
+                const containerHeight = container.clientHeight;
+                return Math.max(0, contentHeight - containerHeight);
+            }
+
+            function getPointerY(e) {
+                if (e.touches && e.touches.length > 0) {
+                    return e.touches[0].clientY;
+                }
+                return e.clientY;
+            }
+
+            function clampScroll(value) {
+                const maxScroll = getMaxScroll();
+                return Math.max(-maxScroll, Math.min(0, value));
+            }
+
+            function applyRubberBand(value) {
+                const maxScroll = getMaxScroll();
+                if (value > 0) {
+                    // Past top edge
+                    return value * rubberBandFactor;
+                } else if (value < -maxScroll) {
+                    // Past bottom edge
+                    const overscroll = value + maxScroll;
+                    return -maxScroll + (overscroll * rubberBandFactor);
+                }
+                return value;
+            }
+
+            function updateTransform(value, animate) {
+                if (animate) {
+                    content.classList.remove('dragging');
+                } else {
+                    content.classList.add('dragging');
+                }
+                content.style.transform = `translateY(${value}px)`;
+            }
+
+            function snapToBounds() {
+                const maxScroll = getMaxScroll();
+                if (scrollY > 0) {
+                    scrollY = 0;
+                } else if (scrollY < -maxScroll) {
+                    scrollY = -maxScroll;
+                }
+                updateTransform(scrollY, true);
+            }
+
+            function onStart(e) {
+                isDragging = true;
+                content.classList.add('dragging');
+                lastPointerY = getPointerY(e);
+                startY = lastPointerY;
+            }
+
+            function onMove(e) {
+                if (!isDragging) return;
+                e.preventDefault();
+                const pointerY = getPointerY(e);
+                const delta = pointerY - lastPointerY;
+                lastPointerY = pointerY;
+
+                scrollY += delta;
+                const displayY = applyRubberBand(scrollY);
+                updateTransform(displayY, false);
+            }
+
+            function onEnd() {
+                if (!isDragging) return;
+                isDragging = false;
+                snapToBounds();
+            }
+
+            // Wheel/touchpad scroll
+            function onWheel(e) {
+                e.preventDefault();
+                content.classList.add('dragging');
+
+                scrollY -= e.deltaY;
+                const displayY = applyRubberBand(scrollY);
+                updateTransform(displayY, false);
+
+                // Debounce snap back for overscroll
+                clearTimeout(container.wheelTimeout);
+                container.wheelTimeout = setTimeout(() => {
+                    snapToBounds();
+                }, 150);
+            }
+
+            // Touch events
+            container.addEventListener('touchstart', onStart, { passive: true });
+            container.addEventListener('touchmove', onMove, { passive: false });
+            container.addEventListener('touchend', onEnd);
+            container.addEventListener('touchcancel', onEnd);
+
+            // Mouse drag events
+            container.addEventListener('mousedown', onStart);
+            container.addEventListener('mousemove', onMove);
+            container.addEventListener('mouseup', onEnd);
+            container.addEventListener('mouseleave', onEnd);
+
+            // Wheel/touchpad events
+            container.addEventListener('wheel', onWheel, { passive: false });
+        });
     </script>
 
 
