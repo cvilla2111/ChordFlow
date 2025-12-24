@@ -108,6 +108,114 @@
             background-color: #d8fff7 !important;
         }
 
+        /* Modal styles */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background-color: #2a2a27;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+            position: relative;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-title {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            color: white;
+            padding: 16px;
+        }
+
+        .modal-content {
+            padding: 0 20px 0 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-inner-container {
+            background-color: #f7f7f0;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            flex: 1;
+        }
+
+        .modal-scroll-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            touch-action: pan-x pan-y;
+        }
+
+        .modal-scroll-content {
+            display: grid;
+            gap: 0;
+            min-width: 100%;
+            align-content: start;
+            will-change: transform;
+        }
+
+        .modal-scroll-content.animating {
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .mixer-row {
+            height: var(--rect-height);
+            background-color: #fffff7;
+            border: 2px solid rgba(0,0,0,0.15);
+            border-bottom: none;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            color: rgba(0,0,0,0.5);
+        }
+
+        .mixer-row:last-child {
+            border-bottom: 2px solid rgba(0,0,0,0.15);
+        }
+
+        .modal-footer {
+            padding: 16px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .modal-close-btn {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+            font-size: 14px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .modal-close-btn:hover {
+            opacity: 0.8;
+        }
+
         .scroll-container {
             position: absolute;
             top: var(--header-height);
@@ -257,7 +365,7 @@
         <i class="header-chevron-right" data-lucide="chevron-right" width="20" height="20" stroke-width="3" style="color: white;"></i>
         <div class="mobile-icons">
             <i data-lucide="play" width="24" height="24" style="color: white; fill: white;"></i>
-            <i data-lucide="audio-lines" width="24" height="24" stroke-width="2.5" style="color: white;"></i>
+            <i class="audio-lines-btn" data-lucide="audio-lines" width="24" height="24" stroke-width="2.5" style="color: white; cursor: pointer;"></i>
             <i data-lucide="rotate-ccw" width="24" height="24" stroke-width="2.5" style="color: white;"></i>
             <i data-lucide="menu" width="24" height="24" stroke-width="3" style="color: white;"></i>
         </div>
@@ -283,7 +391,7 @@
     <div class="header right-header">
         <span style="position: absolute; left: 16px; top: 50%; transform: translateY(-50%); font-family: 'Roboto', sans-serif; font-weight: 500; font-size: 14px; color: white;">Chord root</span>
         <i data-lucide="play" width="18" height="18" style="position: absolute; right: 160px; top: 50%; transform: translateY(-50%); color: white; fill: white;"></i>
-        <i data-lucide="audio-lines" width="18" height="18" stroke-width="2.5" style="position: absolute; right: 112px; top: 50%; transform: translateY(-50%); color: white;"></i>
+        <i class="audio-lines-btn" data-lucide="audio-lines" width="18" height="18" stroke-width="2.5" style="position: absolute; right: 112px; top: 50%; transform: translateY(-50%); color: white; cursor: pointer;"></i>
         <i data-lucide="rotate-ccw" width="18" height="18" stroke-width="2.5" style="position: absolute; right: 64px; top: 50%; transform: translateY(-50%); color: white;"></i>
         <i data-lucide="menu" width="18" height="18" stroke-width="3" style="position: absolute; right: 16px; top: 50%; transform: translateY(-50%); color: white;"></i>
     </div>
@@ -419,6 +527,32 @@
     </div>
     <div id="viewport-label" style="position: fixed; bottom: 4px; right: 4px; font-family: 'Roboto', sans-serif; font-size: 10px; color: rgba(0,0,0,0.3); pointer-events: none;"></div>
 
+    <!-- Audio Lines Modal -->
+    <div id="audio-modal" class="modal-overlay">
+        <div class="modal" style="width: 600px; height: 470px;">
+            <div class="modal-title">Instrument mixer</div>
+            <div class="modal-content">
+                <div class="modal-inner-container">
+                    <div class="modal-scroll-container">
+                        <div class="modal-scroll-content">
+                            <div class="mixer-row">1.</div>
+                            <div class="mixer-row">2.</div>
+                            <div class="mixer-row">3.</div>
+                            <div class="mixer-row">4.</div>
+                            <div class="mixer-row">5.</div>
+                            <div class="mixer-row">6.</div>
+                            <div class="mixer-row">7.</div>
+                            <div class="mixer-row">8.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <span class="modal-close-btn">Close</span>
+            </div>
+        </div>
+    </div>
+
     <script>
         function updateViewportLabel() {
             document.getElementById('viewport-label').textContent = window.innerWidth + ' x ' + window.innerHeight;
@@ -430,8 +564,8 @@
         lucide.createIcons();
 
         // Smooth scroll with momentum and rubber band edge effect (vertical only)
-        document.querySelectorAll('.scroll-container').forEach(container => {
-            const content = container.querySelector('.scroll-content');
+        document.querySelectorAll('.scroll-container, .modal-scroll-container').forEach(container => {
+            const content = container.querySelector('.scroll-content, .modal-scroll-content');
             let isDragging = false;
             let scrollY = 0;
             let lastPointerY = 0;
@@ -672,6 +806,30 @@
 
             // Select the newly added chord
             selectChordItem(newChord);
+        });
+
+        // Audio modal functionality
+        const audioModal = document.getElementById('audio-modal');
+
+        // Open modal when clicking audio-lines icons
+        document.querySelectorAll('.audio-lines-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                audioModal.classList.add('active');
+                lucide.createIcons();
+            });
+        });
+
+        // Close modal when clicking close button
+        audioModal.querySelector('.modal-close-btn').addEventListener('click', () => {
+            audioModal.classList.remove('active');
+        });
+
+        // Close modal when clicking overlay background
+        audioModal.addEventListener('click', (e) => {
+            if (e.target === audioModal) {
+                audioModal.classList.remove('active');
+            }
         });
     </script>
 
